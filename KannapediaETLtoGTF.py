@@ -10,8 +10,11 @@ def download_file(url, filename):
 
 # Function to convert FASTA to GTF or BED12
 def convert_fasta_to_gtf(fasta_filename, gtf_filename):
-    # This function would need to be implemented using a bioinformatics tool
-    pass
+    # Use BioPython to read in the FASTA file and write it out as a GTF file
+    with open(gtf_filename, 'w') as gtf_file:
+        for record in SeqIO.parse(fasta_filename, 'fasta'):
+            gtf_file.write(f'{record.id}\t.\tgene\t1\t{len(record.seq)}\t.\t+\t.\tgene_id "{record.id}"; transcript_id "{record.id}";\n')
+    return gtf_filename
 
 # Function to prepare GTF or BED12 files for Gephi and GWAS analysis
 def prepare_for_analysis(gtf_filename):
